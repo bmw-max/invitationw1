@@ -348,6 +348,182 @@
             box-shadow: 0 5px 15px rgba(163, 141, 109, 0.2);
         }
         .hidden { display: none; }
+
+        /* RSVP & Page Turn Transition */
+        #reveal-container, #rsvp-container {
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease-in-out;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .flip-out {
+            transform: rotateY(-180deg) scale(0.9) !important;
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        #rsvp-container {
+            transform: rotateY(180deg) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        #rsvp-container.active {
+            transform: rotateY(0deg) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .rsvp-form-input {
+            width: 100%;
+            background: transparent;
+            border-bottom: 1px solid var(--gold-light);
+            padding: 0.75rem 0;
+            color: var(--navy);
+            transition: border-color 0.3s ease;
+        }
+
+        .rsvp-form-input:focus {
+            outline: none;
+            border-bottom-color: var(--gold);
+        }
+
+        .rsvp-form-label {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            font-weight: bold;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .rsvp-submit-btn {
+            width: 100%;
+            padding: 1rem 0;
+            font-size: 0.875rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            background: white;
+            border: 1px solid #A38D6D;
+            color: #223562; /* Navy */
+            transition: all 0.5s ease;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .rsvp-submit-btn:hover {
+            background: #A38D6D;
+            color: white;
+        }
+
+        .rsvp-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Stage & Envelope Animation */
+        #success-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        #success-container.active {
+            opacity: 1;
+            pointer-events: auto;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            perspective: 1000px;
+        }
+
+        .envelope-base {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border: 1px solid #eee;
+            z-index: 2;
+        }
+
+        .envelope-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #f9f9f9;
+            transform-origin: top;
+            transition: transform 0.8s ease;
+            z-index: 4;
+        }
+
+        .envelope-wrapper.closed .envelope-top {
+            transform: rotateX(-180deg);
+            z-index: 6;
+        }
+
+        .success-message {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
+
+        #success-container.active .success-message {
+            opacity: 1;
+        }
+
+        /* Folding invitation animation */
+        .invitation-folding {
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .is-submitting .invitation-card {
+            transform: scale(0.2) translateY(500px) rotateX(20deg) !important;
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        .rsvp-back-btn {
+            background: none;
+            border: none;
+            text-transform: uppercase;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: #94a3b8;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .rsvp-back-btn:hover {
+            color: var(--gold);
+        }
     </style>
 </head>
 
@@ -566,7 +742,7 @@
                     <span class="cta-title-content"><!-- cta-1-title -->Se loger ?<!-- /cta-1-title --></span>
                 </a>
                 
-                <span class="hidden" id="cta-2-url-data"><!-- cta-2-url -->www.google.com<!-- /cta-2-url --></span>
+                <span class="hidden" id="cta-2-url-data"><!-- cta-2-url -->#rsvp<!-- /cta-2-url --></span>
                 <a href="#" target="_blank" class="cta-button" id="cta-2">
                     <span class="cta-title-content"><!-- cta-2-title -->Confirmer notre présence<!-- /cta-2-title --></span>
                 </a>
@@ -597,6 +773,88 @@
                 <p class="h-[1px] w-12 bg-[#D8C4A1]/30 mx-auto mb-4"></p>
                 <p class="text-[#A38D6D]/80 font-bold"><!-- footer-rsvp-date -->Réponse souhaitée avant le 1er Juin<!-- /footer-rsvp-date --></p>
             </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 3: RSVP FORM -->
+    <div id="rsvp-container" class="absolute inset-0 flex items-center justify-center p-4 sm:p-8 overflow-y-auto">
+        <div class="invitation-card w-full max-w-2xl min-h-[80vh] flex flex-col p-8 sm:p-12 relative overflow-visible shadow-2xl">
+            <!-- Reuse Ornaments -->
+            <svg class="ornament ornament-tl"><use href="#ornament-symbol"></use></svg>
+            <svg class="ornament ornament-tr"><use href="#ornament-symbol"></use></svg>
+            <svg class="ornament ornament-bl"><use href="#ornament-symbol"></use></svg>
+            <svg class="ornament ornament-br"><use href="#ornament-symbol"></use></svg>
+
+            <div class="text-center mb-10">
+                <h2 class="serif text-3xl gold-text uppercase tracking-[0.3em] mb-4">RSVP</h2>
+                <p class="italic text-slate-500 text-sm max-w-md mx-auto">
+                    <!-- rsvp-intro-text -->Merci de nous confirmer votre présence avant le 1er Juin 2026.<!-- /rsvp-intro-text -->
+                </p>
+                <span class="hidden" id="rsvp-questions-data"><!-- rsvp-questions-data -->[{"label":"Serez-vous présent ?","type":"select","name":"serez_vous_present__","options":["Oui, avec plaisir","Non, malheureusement"]},{"label":"Nombre d'invités (y compris vous)","type":"select","name":"nombre_d_invites__y_compris_vous_","options":["Oui, avec plaisir","Non, malheureusement"]},{"label":"Allergies ou régimes particuliers ?","type":"text","name":"allergies_ou_regimes_particuliers__"},{"label":"Aidez nous à choisir l'ambiance musicale, quelle usique vous fera vous lever de votre chaise ?","type":"text","name":"aidez_nous_a_choisir_l_ambiance_musicale__quelle_usique_vous_fera_vous_lever_de_votre_chaise__"}]<!-- /rsvp-questions-data --></span>
+            </div>
+
+            <form id="rsvp-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-8 max-w-md mx-auto w-full pb-10 transition-all duration-1000">
+                <input type="hidden" name="access_key" value="<!-- rsvp-access-key -->fbf8f22c-b3bc-4c86-8e32-2f76ce54a1ca<!-- /rsvp-access-key -->">
+                <div>
+                    <label class="rsvp-form-label">Votre Nom Complet</label>
+                    <input type="text" name="name" required class="rsvp-form-input" placeholder="ex: Jean Dupont">
+                </div>
+                
+                <div>
+                    <label class="rsvp-form-label">Votre Email</label>
+                    <input type="email" name="email" required class="rsvp-form-input" placeholder="ex: jean.dupont@email.com">
+                </div>
+                
+                <!-- Dynamic Questions -->
+                <div id="dynamic-rsvp-questions" class="space-y-8">
+                    <!-- rsvp-questions -->                    <div>
+                        <label class="rsvp-form-label">Serez-vous présent ?</label>
+                        <select name="serez_vous_present__" class="rsvp-form-input bg-transparent">
+                            <option value="Oui, avec plaisir">Oui, avec plaisir</option>
+                            <option value="Non, malheureusement">Non, malheureusement</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="rsvp-form-label">Nombre d'invités (y compris vous)</label>
+                        <select name="nombre_d_invites__y_compris_vous_" class="rsvp-form-input bg-transparent">
+                            <option value="Oui, avec plaisir">Oui, avec plaisir</option>
+                            <option value="Non, malheureusement">Non, malheureusement</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="rsvp-form-label">Allergies ou régimes particuliers ?</label>
+                        <input type="text" name="allergies_ou_regimes_particuliers__" class="rsvp-form-input"  placeholder="Votre réponse...">
+                    </div>
+                    <div>
+                        <label class="rsvp-form-label">Aidez nous à choisir l'ambiance musicale, quelle usique vous fera vous lever de votre chaise ?</label>
+                        <input type="text" name="aidez_nous_a_choisir_l_ambiance_musicale__quelle_usique_vous_fera_vous_lever_de_votre_chaise__" class="rsvp-form-input"  placeholder="Votre réponse...">
+                    </div><!-- /rsvp-questions -->
+                </div>
+
+                <div class="pt-6 text-center">
+                    <button type="submit" class="rsvp-submit-btn">
+                        Confirmer ma venue
+                    </button>
+                    <button type="button" onclick="goToInvitation()" class="rsvp-back-btn">
+                        ← Retour à l'invitation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- STAGE 4: SUCCESS / ENVELOPE -->
+    <div id="success-container">
+        <div class="envelope-wrapper">
+            <div class="envelope-top"></div>
+            <div class="envelope-base"></div>
+            <div class="success-message">
+                <h2 class="serif gold-text text-2xl uppercase tracking-widest mb-4">Merci !</h2>
+                <p class="serif text-[9px] uppercase tracking-widest text-slate-400 mb-8">Votre réponse a bien été envoyée.</p>
+                <button onclick="resetToInvitation()" class="text-[9px] uppercase tracking-[0.2em] text-[#A38D6D] border-b border-[#D8C4A1] pb-1 hover:text-[#223562] transition-colors">
+                    Retour à l'invitation
+                </button>
             </div>
         </div>
     </div>
@@ -785,12 +1043,114 @@
                     const dataSpan = document.getElementById(`${cta.id}-url-data`);
                     if (dataSpan) {
                         let url = dataSpan.textContent.trim();
-                        // Fix protocol if missing
-                        if (url && !url.startsWith('http') && !url.startsWith('//')) {
-                            url = 'https://' + url;
+                        if (url === '#rsvp') {
+                            cta.href = 'javascript:void(0)';
+                            cta.onclick = (e) => {
+                                e.preventDefault();
+                                goToRSVP();
+                            };
+                        } else {
+                            // Fix protocol if missing
+                            if (url && !url.startsWith('http') && !url.startsWith('//') && !url.startsWith('javascript:')) {
+                                url = 'https://' + url;
+                            }
+                            cta.href = url;
+                            cta.onclick = null;
                         }
-                        cta.href = url;
                     }
+                }
+            });
+        }
+
+        function goToRSVP() {
+            const reveal = document.getElementById('reveal-container');
+            const rsvp = document.getElementById('rsvp-container');
+            reveal.classList.add('flip-out');
+            setTimeout(() => {
+                rsvp.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 150);
+        }
+
+        function goToInvitation() {
+            const reveal = document.getElementById('reveal-container');
+            const rsvp = document.getElementById('rsvp-container');
+            rsvp.classList.remove('active');
+            setTimeout(() => {
+                reveal.classList.remove('flip-out');
+            }, 300);
+        }
+
+        function resetToInvitation() {
+            const success = document.getElementById('success-container');
+            const reveal = document.getElementById('reveal-container');
+            const rsvp = document.getElementById('rsvp-container');
+            
+            success.classList.remove('active');
+            setTimeout(() => {
+                document.body.classList.remove('is-submitting');
+                rsvp.classList.remove('active');
+                reveal.classList.remove('flip-out');
+                document.querySelector('.envelope-wrapper').classList.remove('closed');
+            }, 500);
+        }
+
+        // AJAX Form Submission
+        const rsvpForm = document.getElementById('rsvp-form');
+        if (rsvpForm) {
+            rsvpForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // 1. Prepare Data
+                const rawFormData = new FormData(rsvpForm);
+                const cleanFormData = new FormData();
+                
+                // Clean all fields of HTML comments (markers)
+                for (let [key, value] of rawFormData.entries()) {
+                    if (typeof value === 'string') {
+                        cleanFormData.append(key, value.replace(/<!--.*?-->/g, '').replace(/%3C!--.*?--%3E/g, ''));
+                    } else {
+                        cleanFormData.append(key, value);
+                    }
+                }
+
+                const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerText;
+                submitBtn.disabled = true;
+                submitBtn.innerText = "ENVOI EN COURS...";
+
+                try {
+                    // 2. Clean URL
+                    const rawAction = rsvpForm.getAttribute('action') || '';
+                    const actionUrl = rawAction.replace(/<!--.*?-->/g, '').replace(/%3C!--.*?--%3E/g, '');
+                    
+                    const response = await fetch(actionUrl, {
+                        method: 'POST',
+                        body: cleanFormData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        // Start Animation Sequence
+                        document.body.classList.add('is-submitting');
+                        
+                        setTimeout(() => {
+                            const success = document.getElementById('success-container');
+                            success.classList.add('active');
+                            
+                            setTimeout(() => {
+                                document.querySelector('.envelope-wrapper').classList.add('closed');
+                            }, 1000);
+                        }, 1000);
+                    } else {
+                        alert("Une erreur est survenue. Veuillez réessayer.");
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = originalText;
+                    }
+                } catch (error) {
+                    alert("Une erreur réseau est survenue.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
                 }
             });
         }
