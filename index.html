@@ -655,13 +655,19 @@
     
     <!-- Audio Configuration -->
     <div id="audio-config" class="hidden" 
-         data-intro="<!-- intro-music-url -->https://files.catbox.moe/rl3l3m.mp3<!-- /intro-music-url -->"
-         data-invitation="<!-- invitation-music-url -->https://files.catbox.moe/qet4sc.mp3<!-- /invitation-music-url -->">
+         data-intro="<!-- intro-music-url -->https://files.catbox.moe/9wlqwz.mp3<!-- /intro-music-url -->"
+         data-invitation="<!-- invitation-music-url --><!-- /invitation-music-url -->">
     </div>
     
     <!-- Audio Elements -->
     <audio id="intro-audio" loop preload="auto"></audio>
     <audio id="invitation-audio" loop preload="auto"></audio>
+    
+    <!-- Mute Button -->
+    <button id="mute-btn" onclick="toggleMute()" class="fixed bottom-6 right-6 z-[200] w-10 h-10 bg-[#A38D6D]/10 backdrop-blur-md border border-[#A38D6D]/20 rounded-full flex items-center justify-center text-[#A38D6D]/60 hover:text-[#A38D6D] hover:bg-[#A38D6D]/20 transition-all duration-500 opacity-0 pointer-events-none shadow-sm group">
+        <svg id="mute-icon-on" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:scale-110 transition-transform"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+        <svg id="mute-icon-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden group-hover:scale-110 transition-transform"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    </button>
 
     <!-- STAGE 1: THE BUILDING (SVG REFACTOR) -->
     <div id="intro-container"
@@ -743,13 +749,13 @@
             <svg class="ornament ornament-bl" viewBox="0 0 100 100"><path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z"/></svg>
             <svg class="ornament ornament-br" viewBox="0 0 100 100"><path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z"/></svg>
             <div class="mb-14">
-                <p class="serif uppercase tracking-[0.5em] text-[10px] text-[#A38D6D] mb-5">Le Plaisir de vous convier</p>
+                <p class="serif uppercase tracking-[0.5em] text-[10px] text-[#A38D6D] mb-5"><!-- invitation-intro-label -->Le Plaisir de vous convier<!-- /invitation-intro-label --></p>
                 <div class="h-[1px] w-20 bg-[#D8C4A1]/60 mx-auto"></div>
             </div>
 
-            <p class="script text-5xl sm:text-7xl text-[#A38D6D] mb-8 leading-tight"><!-- couple-names -->Martin & Béatrice<!-- /couple-names --></p>
+            <p class="script text-5xl sm:text-7xl text-[#A38D6D] mb-8 leading-tight"><!-- couple-names -->Béatrice & Martin<!-- /couple-names --></p>
             
-            <p class="serif italic text-base sm:text-lg text-slate-600 mb-8 px-4">ont la joie de vous inviter à célébrer leur union</p>
+            <p class="serif italic text-base sm:text-lg text-slate-600 mb-8 px-4"><!-- invitation-main-text -->ont la joie de vous inviter à célébrer leur union<!-- /invitation-main-text --></p>
 
             <!-- Countdown Timer -->
             <div id="countdown" class="flex justify-center gap-4 mb-12 opacity-80 scale-90 sm:scale-100">
@@ -785,7 +791,7 @@
                 </div>
                 <div class="order-3 sm:order-3">
                     <p class="serif uppercase tracking-[0.3em] text-[9px] mb-2 text-slate-400 font-bold">À partir de</p>
-                    <p class="serif text-3xl font-light text-[#223562]"><!-- event-time -->15:45<!-- /event-time --></p>
+                    <p class="serif text-3xl font-light text-[#223562]"><!-- event-time -->16:00<!-- /event-time --></p>
                 </div>
             </div>
 
@@ -819,42 +825,42 @@
                             </div>
                             <span class="timeline-time"><!-- timeline-2-time -->16:30<!-- /timeline-2-time --></span>
                             <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-2-title -->Cortège & Photos<!-- /timeline-2-title --></span></p>
-                            <p class="timeline-desc"><!-- timeline-2-desc -->Départ groupé vers le lieu de réception<!-- /timeline-2-desc --></p>
-                            <span class="hidden" id="item-2-maps-data"><!-- timeline-2-maps -->https://maps.app.goo.gl/cwBt9UWcPmGsUvdA8<!-- /timeline-2-maps --></span>
+                            <p class="timeline-desc"><!-- timeline-2-desc -->Départ groupé vers le lieu du shooting photo<!-- /timeline-2-desc --></p>
+                            <span class="hidden" id="item-2-maps-data"><!-- timeline-2-maps -->https://www.google.com/maps/dir/Mairie,+110+Rue+Machoit,+88800+Mandres-sur-Vair/Lacs+de+la+Folie,+1+Rte+des+Lacs,+88140+Contrex%C3%A9ville/@48.2060904,5.8681803,14z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x4793383c68ef12f5:0x2d5735c70d363a33!2m2!1d5.892964!2d48.2240477!1m5!1m1!1s0x479339703014903d:0xfd990ba4a611f435!2m2!1d5.8795051!2d48.1974153!3e0?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D<!-- /timeline-2-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span class="timeline-address-content"><!-- timeline-2-address -->Via D7 - 7min en voiture<!-- /timeline-2-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-2-address -->En voiture - 8 min<!-- /timeline-2-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-3">
                             <div class="timeline-node">
                                 <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
-                            <span class="timeline-time"><!-- timeline-3-time -->18:30<!-- /timeline-3-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-3-title -->Vin d'Honneur & Repas<!-- /timeline-3-title --></span></p>
-                            <p class="timeline-desc"><!-- timeline-3-desc -->Cocktails et festivités au Casino<!-- /timeline-3-desc --></p>
-                            <span class="hidden" id="item-3-maps-data"><!-- timeline-3-maps -->https://maps.app.goo.gl/1my84jiZKJM23PF27<!-- /timeline-3-maps --></span>
+                            <span class="timeline-time"><!-- timeline-3-time -->17:45<!-- /timeline-3-time --></span>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-3-title -->Cortège vers le lieu de réception<!-- /timeline-3-title --></span></p>
+                            <p class="timeline-desc"><!-- timeline-3-desc -->Départ groupé vers le lieu de réception<!-- /timeline-3-desc --></p>
+                            <span class="hidden" id="item-3-maps-data"><!-- timeline-3-maps -->https://www.google.com/maps/dir/Lacs+de+la+Folie,+1+Rte+des+Lacs,+88140+Contrex%C3%A9ville/Casino+Partouche+de+Contrex%C3%A9ville,+120+Rue+du+G%C3%A9n%C3%A9ral+Hirschauer,+88140+Contrex%C3%A9ville/@48.1890475,5.8767827,15z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x479339703014903d:0xfd990ba4a611f435!2m2!1d5.8795051!2d48.1974153!1m5!1m1!1s0x479339eb4e15a4a7:0x7ff12b4498ba6c0e!2m2!1d5.8930014!2d48.1821619!3e0?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D<!-- /timeline-3-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span class="timeline-address-content"><!-- timeline-3-address -->77 Rue du Casino, 88140 Contrexéville<!-- /timeline-3-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-3-address -->En voiture - 5 min<!-- /timeline-3-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-4">
                             <div class="timeline-node">
                                 <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
-                            <span class="timeline-time"><!-- timeline-4-time -->02:00<!-- /timeline-4-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-4-title -->Fin des festivités<!-- /timeline-4-title --></span></p>
-                            <p class="timeline-desc"><!-- timeline-4-desc --><!-- /timeline-4-desc --></p>
-                            <span class="hidden" id="item-4-maps-data"><!-- timeline-4-maps --><!-- /timeline-4-maps --></span>
+                            <span class="timeline-time"><!-- timeline-4-time -->18:30<!-- /timeline-4-time --></span>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-4-title -->Vin d'Honneur & Repas<!-- /timeline-4-title --></span></p>
+                            <p class="timeline-desc"><!-- timeline-4-desc -->Cocktails et festivités au Casino<!-- /timeline-4-desc --></p>
+                            <span class="hidden" id="item-4-maps-data"><!-- timeline-4-maps -->https://maps.app.goo.gl/1my84jiZKJM23PF27<!-- /timeline-4-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span class="timeline-address-content"><!-- timeline-4-address --><!-- /timeline-4-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-4-address -->77 Rue du Casino, 88140 Contrexéville<!-- /timeline-4-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-5">
                             <div class="timeline-node">
                                 <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
-                            <span class="timeline-time"><!-- timeline-5-time --><!-- /timeline-5-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-5-title --><!-- /timeline-5-title --></span></p>
+                            <span class="timeline-time"><!-- timeline-5-time -->02:00<!-- /timeline-5-time --></span>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-5-title -->Fin des festivités<!-- /timeline-5-title --></span></p>
                             <p class="timeline-desc"><!-- timeline-5-desc --><!-- /timeline-5-desc --></p>
                             <span class="hidden" id="item-5-maps-data"><!-- timeline-5-maps --><!-- /timeline-5-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
@@ -878,14 +884,14 @@
             </div>
 
             <div class="cta-container">
-                <span class="hidden" id="cta-1-url-data"><!-- cta-1-url -->https://www.booking.com/searchresults.fr.html?label=gen173nr-10CAEoggI46AdIDVgEaE2IAQGYATO4AQfIAQ3YAQPoAQH4AQGIAgGoAgG4Aq-b7M0GwAIB0gIkMzQ1NTY1Y2MtMjE4YS00ODYzLWJiZDMtZWNlZmExNzY1ODAw2AIB4AIB&aid=304142&ss=Contrexéville+•+Casino&efdco=1&lang=fr&src=index&dest_id=-1421538&dest_type=city&ac_position=0&ac_click_type=b&ac_langcode=fr&ac_suggestion_list_length=1&search_selected=true&search_pageview_id=cd7f915734880074&nflt=ht_id%3D204%3Bdistance%3D1000%3Bdistance%3D3000&checkin=2026-10-07&checkout=2026-10-08&group_adults=1&no_rooms=1&group_children=0&sr_sfu=1<!-- /cta-1-url --></span>
+                <span class="hidden" id="cta-1-url-data"><!-- cta-1-url -->#rsvp<!-- /cta-1-url --></span>
                 <a href="#" target="_blank" class="cta-button" id="cta-1">
-                    <span class="cta-title-content"><!-- cta-1-title -->Se loger ?<!-- /cta-1-title --></span>
+                    <span class="cta-title-content"><!-- cta-1-title -->Confirmer notre présence<!-- /cta-1-title --></span>
                 </a>
                 
-                <span class="hidden" id="cta-2-url-data"><!-- cta-2-url -->#rsvp<!-- /cta-2-url --></span>
+                <span class="hidden" id="cta-2-url-data"><!-- cta-2-url -->https://www.booking.com/searchresults.fr.html?label=gen173nr-10CAEoggI46AdIDVgEaE2IAQGYATO4AQfIAQ3YAQPoAQH4AQGIAgGoAgG4Aq-b7M0GwAIB0gIkMzQ1NTY1Y2MtMjE4YS00ODYzLWJiZDMtZWNlZmExNzY1ODAw2AIB4AIB&aid=304142&ss=Contrexéville+•+Casino&efdco=1&lang=fr&src=index&dest_id=-1421538&dest_type=city&ac_position=0&ac_click_type=b&ac_langcode=fr&ac_suggestion_list_length=1&search_selected=true&search_pageview_id=cd7f915734880074&nflt=ht_id%3D204%3Bdistance%3D1000%3Bdistance%3D3000&checkin=2026-10-07&checkout=2026-10-08&group_adults=1&no_rooms=1&group_children=0&sr_sfu=1<!-- /cta-2-url --></span>
                 <a href="#" target="_blank" class="cta-button" id="cta-2">
-                    <span class="cta-title-content"><!-- cta-2-title -->Confirmer notre présence<!-- /cta-2-title --></span>
+                    <span class="cta-title-content"><!-- cta-2-title -->Se loger ?<!-- /cta-2-title --></span>
                 </a>
                 
                 <span class="hidden" id="cta-3-url-data"><!-- cta-3-url --><!-- /cta-3-url --></span>
@@ -912,7 +918,7 @@
             <div class="text-[9px] uppercase tracking-[0.4em] text-[#A38D6D] mb-12">
                 <p class="mb-4 text-slate-500"><!-- footer-dress-code -->Tenue de soirée appréciée<!-- /footer-dress-code --></p>
                 <p class="h-[1px] w-12 bg-[#D8C4A1]/30 mx-auto mb-4"></p>
-                <p class="text-[#A38D6D]/80 font-bold"><!-- footer-rsvp-date -->Réponse souhaitée avant le 1er Juin<!-- /footer-rsvp-date --></p>
+                <p class="text-[#A38D6D]/80 font-bold"><!-- footer-rsvp-date -->Réponse souhaitée avant le 1er Juin 2026<!-- /footer-rsvp-date --></p>
             </div>
             </div>
         </div>
@@ -932,7 +938,7 @@
                 <p class="italic text-slate-500 text-sm max-w-md mx-auto">
                     <!-- rsvp-intro-text -->Merci de nous confirmer votre présence avant le 1er Juin 2026.<!-- /rsvp-intro-text -->
                 </p>
-                <span class="hidden" id="rsvp-questions-data"><!-- rsvp-questions-data -->[{"label":"Serez-vous présent ?","type":"select","required":false,"name":"serez_vous_present__","options":["Oui avec plaisir","Non malheureusement"]},{"label":"Nombre d'invités (y compris vous)","type":"number","required":false,"name":"nombre_d_invites__y_compris_vous_"},{"label":"Allergies ou régimes particuliers ?","type":"text","required":false,"name":"allergies_ou_regimes_particuliers__"},{"label":"Aidez nous à choisir l'ambiance musicale, quelle musique vous fera vous lever de votre chaise ?","type":"text","required":false,"name":"aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__"},{"label":"test question nom","type":"text","required":true,"name":"test_question_nom"},{"label":"test question email","type":"text","required":false,"name":"test_question_email"}]<!-- /rsvp-questions-data --></span>
+                <span class="hidden" id="rsvp-questions-data"><!-- rsvp-questions-data -->[{"label":"Serez-vous présent ?","type":"select","required":true,"name":"serez_vous_present__","options":["Oui avec plaisir","Non malheureusement"]},{"label":"Nombre d'invités (y compris vous)","type":"number","required":false,"name":"nombre_d_invites__y_compris_vous_"},{"label":"Allergies ou régimes particuliers ?","type":"text","required":false,"name":"allergies_ou_regimes_particuliers__"},{"label":"Aidez nous à choisir l'ambiance musicale, quelle musique vous fera vous lever de votre chaise ?","type":"text","required":false,"name":"aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__"}]<!-- /rsvp-questions-data --></span>
             </div>
 
             <form id="rsvp-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-8 max-w-md mx-auto w-full pb-10 transition-all duration-1000">
@@ -967,14 +973,6 @@
                     <div>
                         <label class="rsvp-form-label">Aidez nous à choisir l'ambiance musicale, quelle musique vous fera vous lever de votre chaise ?</label>
                         <input type="text" name="aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__" class="rsvp-form-input"  placeholder="Votre réponse..." >
-                    </div>
-                    <div>
-                        <label class="rsvp-form-label">test question nom</label>
-                        <input type="text" name="test_question_nom" class="rsvp-form-input"  placeholder="Votre réponse..." required>
-                    </div>
-                    <div>
-                        <label class="rsvp-form-label">test question email</label>
-                        <input type="text" name="test_question_email" class="rsvp-form-input"  placeholder="Votre réponse..." >
                     </div><!-- /rsvp-questions -->
                 </div>
 
@@ -1050,7 +1048,7 @@
         function checkCode() {
             const input = document.getElementById('passcode').value.toLowerCase().trim();
             // Strip markers for runtime comparison
-            const correctCode = '<!-- passcode -->toto<!-- /passcode -->'.replace(/<!--.*?-->/g, '');
+            const correctCode = '<!-- passcode -->BM2026<!-- /passcode -->'.replace(/<!--.*?-->/g, '');
             if (input === correctCode.toLowerCase().trim()) {
                 unlock();
             } else {
@@ -1141,7 +1139,7 @@
         }
 
         // Countdown Logic
-        const dateStr = '<!-- event-full-date-iso -->2026-10-07T16:00:00<!-- /event-full-date-iso -->'.replace(/<!--.*?-->/g, '');
+        const dateStr = '<!-- event-full-date-iso -->2026-10-07T17:00:00<!-- /event-full-date-iso -->'.replace(/<!--.*?-->/g, '');
         const targetDate = new Date(dateStr).getTime();
         
         function updateCountdown() {
@@ -1193,15 +1191,20 @@
                     // Handle Maps link for address
                     if (addressContent && addressContainer) {
                         if (mapsUrl) {
-                            // Only wrap if not already wrapped
-                            if (addressContent.parentElement.tagName !== 'A') {
-                                const link = document.createElement('a');
-                                link.href = mapsUrl.startsWith('http') ? mapsUrl : `https://${mapsUrl}`;
-                                link.target = '_blank';
-                                link.className = 'hover:underline inline-block';
-                                addressContent.parentNode.insertBefore(link, addressContent);
-                                link.appendChild(addressContent);
-                            }
+                                // Only wrap if not already wrapped
+                                if (addressContent.parentElement.tagName !== 'A') {
+                                    const link = document.createElement('a');
+                                    link.href = mapsUrl.startsWith('http') ? mapsUrl : `https://${mapsUrl}`;
+                                    link.target = '_blank';
+                                    link.className = 'hover:underline inline-flex items-center gap-1';
+                                    addressContent.parentNode.insertBefore(link, addressContent);
+                                    link.appendChild(addressContent);
+                                    
+                                    // Add external link icon
+                                    const icon = document.createElement('span');
+                                    icon.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 mb-[1px]"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+                                    link.appendChild(icon);
+                                }
                         } else {
                             // If already wrapped but no URL, unwrap
                             if (addressContent.parentElement.tagName === 'A') {
@@ -1366,25 +1369,65 @@
 
             if (introUrl) {
                 introAudio.src = introUrl;
+                introAudio.autoplay = true; // Attempt autoplay
                 introAudio.load();
+                
+                // Try playing immediately
+                const promise = introAudio.play();
+                if (promise !== undefined) {
+                    promise.then(() => {
+                        console.log("Autoplay successful");
+                        // If autoplay works, we don't need the click listeners
+                        document.removeEventListener('click', startPlaying);
+                        document.removeEventListener('touchstart', startPlaying);
+                        const muteBtn = document.getElementById('mute-btn');
+                        if (muteBtn) muteBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    }).catch(error => {
+                        console.log("Autoplay prevented by browser. Waiting for interaction.");
+                    });
+                }
             }
             if (invitationUrl) {
                 invitationAudio.src = invitationUrl;
                 invitationAudio.load();
             }
 
-            const startPlaying = () => {
+            function startPlaying() {
                 if (introUrl && introAudio.paused) {
                     introAudio.play().then(() => {
-                        console.log("Intro audio started");
+                        console.log("Intro audio started via interaction");
+                        // Show mute button
+                        const muteBtn = document.getElementById('mute-btn');
+                        if (muteBtn) muteBtn.classList.remove('opacity-0', 'pointer-events-none');
+                        
                         document.removeEventListener('click', startPlaying);
                         document.removeEventListener('touchstart', startPlaying);
                     }).catch(e => console.log("Audio still blocked", e));
                 }
-            };
+            }
             
             document.addEventListener('click', startPlaying);
             document.addEventListener('touchstart', startPlaying);
+        }
+
+        let isAudioMuted = false;
+        function toggleMute() {
+            const introAudio = document.getElementById('intro-audio');
+            const invitationAudio = document.getElementById('invitation-audio');
+            const iconOn = document.getElementById('mute-icon-on');
+            const iconOff = document.getElementById('mute-icon-off');
+            
+            isAudioMuted = !isAudioMuted;
+            introAudio.muted = isAudioMuted;
+            invitationAudio.muted = isAudioMuted;
+            
+            if (isAudioMuted) {
+                iconOn.classList.add('hidden');
+                iconOff.classList.remove('hidden');
+            } else {
+                iconOn.classList.remove('hidden');
+                iconOff.classList.add('hidden');
+            }
         }
 
         function initDynamicRSVP() {
