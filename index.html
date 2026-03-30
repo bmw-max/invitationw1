@@ -652,10 +652,20 @@
 
 <body class="flex flex-col items-center justify-center min-h-screen relative overflow-hidden bg-white">
     <div id="bubbles-container"></div>
+    
+    <!-- Audio Configuration -->
+    <div id="audio-config" class="hidden" 
+         data-intro="<!-- intro-music-url -->https://files.catbox.moe/rl3l3m.mp3<!-- /intro-music-url -->"
+         data-invitation="<!-- invitation-music-url -->https://files.catbox.moe/qet4sc.mp3<!-- /invitation-music-url -->">
+    </div>
+    
+    <!-- Audio Elements -->
+    <audio id="intro-audio" loop preload="auto"></audio>
+    <audio id="invitation-audio" loop preload="auto"></audio>
 
     <!-- STAGE 1: THE BUILDING (SVG REFACTOR) -->
     <div id="intro-container"
-        class="flex flex-col items-center justify-center w-full h-full absolute inset-0 z-10 p-6 transition-opacity duration-1000">
+        class="flex flex-col items-center justify-center w-full h-full absolute inset-0 z-10 p-6 transition-opacity duration-1000 overflow-hidden">
 
         <!-- Fireworks Background -->
         <div class="fw-container">
@@ -696,8 +706,8 @@
 
             <!-- Lock UI: Properly centered and independent of SVG zoom to avoid blur -->
             <div id="lock-ui"
-                class="absolute opacity-0 transition-opacity duration-1000 flex flex-col items-center justify-center translate-y-[20px]">
-                <div
+                class="fixed inset-0 z-[100] opacity-0 transition-all duration-1000 flex flex-col items-center justify-center pointer-events-none">
+                <div id="lock-content"
                     class="flex flex-col items-center p-8 rounded-full bg-white/90 backdrop-blur-md border border-[#A38D6D]/20 shadow-2xl">
                     <svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
                         class="mb-5 opacity-80">
@@ -724,34 +734,22 @@
     </div>
 
     <!-- STAGE 2: THE REVEAL -->
-    <div id="reveal-container"
-        class="fixed inset-0 z-50 flex flex-col items-center justify-start opacity-0 transition-opacity duration-1500 pointer-events-none overflow-y-scroll overflow-x-hidden pt-2 sm:pt-4 pb-20 px-4">
+    <div id="reveal-container" class="fixed inset-0 z-50 flex flex-col items-center justify-start opacity-0 transition-opacity duration-1500 pointer-events-none overflow-y-scroll overflow-x-hidden pt-2 sm:pt-4 pb-20 px-4">
         <!-- Classy Invitation Content -->
         <div class="max-w-xl w-full text-center relative z-50 px-8 py-10 sm:py-20 invitation-card mt-2 sm:mt-4 mb-8 mx-4 sm:mx-8 rounded-sm hover-lift">
             <!-- Ornaments -->
-            <svg class="ornament ornament-tl" viewBox="0 0 100 100">
-                <path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z" />
-            </svg>
-            <svg class="ornament ornament-tr" viewBox="0 0 100 100">
-                <path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z" />
-            </svg>
-            <svg class="ornament ornament-bl" viewBox="0 0 100 100">
-                <path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z" />
-            </svg>
-            <svg class="ornament ornament-br" viewBox="0 0 100 100">
-                <path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z" />
-            </svg>
+            <svg class="ornament ornament-tl" viewBox="0 0 100 100"><path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z"/></svg>
+            <svg class="ornament ornament-tr" viewBox="0 0 100 100"><path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z"/></svg>
+            <svg class="ornament ornament-bl" viewBox="0 0 100 100"><path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z"/></svg>
+            <svg class="ornament ornament-br" viewBox="0 0 100 100"><path d="M0 0 v30 q0 -20 20 -20 h30 v-10 h-50 Z"/></svg>
             <div class="mb-14">
-                <p class="serif uppercase tracking-[0.5em] text-[10px] text-[#A38D6D] mb-5">Le Plaisir de vous convier
-                </p>
+                <p class="serif uppercase tracking-[0.5em] text-[10px] text-[#A38D6D] mb-5">Le Plaisir de vous convier</p>
                 <div class="h-[1px] w-20 bg-[#D8C4A1]/60 mx-auto"></div>
             </div>
 
-            <p class="script text-5xl sm:text-7xl text-[#A38D6D] mb-8 leading-tight"><!-- couple-names -->Martin &
-                Béatrice<!-- /couple-names --></p>
-
-            <p class="serif italic text-base sm:text-lg text-slate-600 mb-8 px-4">ont la joie de vous inviter à célébrer
-                leur union</p>
+            <p class="script text-5xl sm:text-7xl text-[#A38D6D] mb-8 leading-tight"><!-- couple-names -->Martin & Béatrice<!-- /couple-names --></p>
+            
+            <p class="serif italic text-base sm:text-lg text-slate-600 mb-8 px-4">ont la joie de vous inviter à célébrer leur union</p>
 
             <!-- Countdown Timer -->
             <div id="countdown" class="flex justify-center gap-4 mb-12 opacity-80 scale-90 sm:scale-100">
@@ -775,15 +773,12 @@
                     <span class="serif uppercase text-[8px] tracking-widest text-[#A38D6D]">Secondes</span>
                 </div>
             </div>
-
-            <div
-                class="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center mb-16 py-8 border-y border-[#D8C4A1]/20 mx-4">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center mb-16 py-8 border-y border-[#D8C4A1]/20 mx-4">
                 <div class="order-2 sm:order-1">
-                    <p class="serif uppercase tracking-[0.3em] text-[9px] mb-2 text-slate-400 font-bold">
-                        <!-- event-day -->Mercredi<!-- /event-day --></p>
+                    <p class="serif uppercase tracking-[0.3em] text-[9px] mb-2 text-slate-400 font-bold"><!-- event-day -->Mercredi<!-- /event-day --></p>
                     <p class="serif text-3xl font-light text-[#223562]"><!-- event-date -->07<!-- /event-date --></p>
-                    <p class="serif uppercase tracking-[0.3em] text-[9px] mt-1 text-slate-400 font-bold">
-                        <!-- event-month-year -->Octobre 2026<!-- /event-month-year --></p>
+                    <p class="serif uppercase tracking-[0.3em] text-[9px] mt-1 text-slate-400 font-bold"><!-- event-month-year -->Octobre 2026<!-- /event-month-year --></p>
                 </div>
                 <div class="order-1 sm:order-2">
                     <p class="script text-4xl text-[#A38D6D]">Le Mariage</p>
@@ -795,155 +790,104 @@
             </div>
 
             <div class="mb-12 px-4">
-                <p class="serif uppercase tracking-[0.3em] text-[10px] mb-3 text-[#A38D6D] font-bold uppercase">Lieu de
-                    la Réception</p>
-                <p class="serif text-xl text-[#223562] border-b border-[#D8C4A1]/30 inline-block pb-2 px-2 font-light">
-                    <!-- event-location -->Casino de Contrexéville<!-- /event-location --></p>
-                <p class="serif italic text-[13px] mt-5 text-slate-400"><!-- event-address -->77 Rue du Casino, 88140
-                    Contrexéville, France<!-- /event-address --></p>
+                <p class="serif uppercase tracking-[0.3em] text-[10px] mb-3 text-[#A38D6D] font-bold uppercase">Lieu de la Réception</p>
+                <p class="serif text-xl text-[#223562] border-b border-[#D8C4A1]/30 inline-block pb-2 px-2 font-light"><!-- event-location -->Casino de Contrexéville<!-- /event-location --></p>
+                <p class="serif italic text-[13px] mt-5 text-slate-400"><!-- event-address -->77 Rue du Casino, 88140 Contrexéville, France<!-- /event-address --></p>
             </div>
 
             <div class="mt-20 mb-20">
                 <!-- Timeline Section -->
                 <div>
-                    <h3 class="serif text-xl tracking-[0.3em] mb-12 uppercase text-[#223562] font-light">
-                        <!-- timeline-header -->Le Programme<!-- /timeline-header --></h3>
+                    <h3 class="serif text-xl tracking-[0.3em] mb-12 uppercase text-[#223562] font-light"><!-- timeline-header -->Le Programme<!-- /timeline-header --></h3>
                     <div class="timeline serif text-[11px] uppercase tracking-[0.2em]" id="timeline-container">
                         <!-- Timeline items will be populated/hidden via JS -->
                         <div class="timeline-item shadow-sm" id="item-1">
                             <div class="timeline-node">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z" />
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
                             <span class="timeline-time"><!-- timeline-1-time -->16:00<!-- /timeline-1-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span
-                                    class="timeline-title-content"><!-- timeline-1-title -->Mairie de
-                                    Mandres-sur-Vair<!-- /timeline-1-title --></span></p>
-                            <p class="timeline-desc"><!-- timeline-1-desc -->Célébration civile du
-                                mariage<!-- /timeline-1-desc --></p>
-                            <span class="hidden"
-                                id="item-1-maps-data"><!-- timeline-1-maps -->https://maps.app.goo.gl/GL9SjJZB9gAvEg4R9<!-- /timeline-1-maps --></span>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-1-title -->Mairie de Mandres-sur-Vair<!-- /timeline-1-title --></span></p>
+                            <p class="timeline-desc"><!-- timeline-1-desc -->Célébration civile du mariage<!-- /timeline-1-desc --></p>
+                            <span class="hidden" id="item-1-maps-data"><!-- timeline-1-maps -->https://maps.app.goo.gl/GL9SjJZB9gAvEg4R9<!-- /timeline-1-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span class="timeline-address-content"><!-- timeline-1-address -->Place de la Mairie,
-                                    88800 Mandres-sur-Vair<!-- /timeline-1-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-1-address -->Place de la Mairie, 88800 Mandres-sur-Vair<!-- /timeline-1-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-2">
                             <div class="timeline-node">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z" />
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
                             <span class="timeline-time"><!-- timeline-2-time -->16:30<!-- /timeline-2-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span
-                                    class="timeline-title-content"><!-- timeline-2-title -->Cortège &
-                                    Photos<!-- /timeline-2-title --></span></p>
-                            <p class="timeline-desc"><!-- timeline-2-desc -->Départ groupé vers le lieu de
-                                réception<!-- /timeline-2-desc --></p>
-                            <span class="hidden"
-                                id="item-2-maps-data"><!-- timeline-2-maps -->https://maps.app.goo.gl/cwBt9UWcPmGsUvdA8<!-- /timeline-2-maps --></span>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-2-title -->Cortège & Photos<!-- /timeline-2-title --></span></p>
+                            <p class="timeline-desc"><!-- timeline-2-desc -->Départ groupé vers le lieu de réception<!-- /timeline-2-desc --></p>
+                            <span class="hidden" id="item-2-maps-data"><!-- timeline-2-maps -->https://maps.app.goo.gl/cwBt9UWcPmGsUvdA8<!-- /timeline-2-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span class="timeline-address-content"><!-- timeline-2-address -->Via D7 - 7min en
-                                    voiture<!-- /timeline-2-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-2-address -->Via D7 - 7min en voiture<!-- /timeline-2-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-3">
                             <div class="timeline-node">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z" />
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
                             <span class="timeline-time"><!-- timeline-3-time -->18:30<!-- /timeline-3-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span
-                                    class="timeline-title-content"><!-- timeline-3-title -->Vin d'Honneur &
-                                    Repas<!-- /timeline-3-title --></span></p>
-                            <p class="timeline-desc"><!-- timeline-3-desc -->Cocktails et festivités au
-                                Casino<!-- /timeline-3-desc --></p>
-                            <span class="hidden"
-                                id="item-3-maps-data"><!-- timeline-3-maps -->https://maps.app.goo.gl/1my84jiZKJM23PF27<!-- /timeline-3-maps --></span>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-3-title -->Vin d'Honneur & Repas<!-- /timeline-3-title --></span></p>
+                            <p class="timeline-desc"><!-- timeline-3-desc -->Cocktails et festivités au Casino<!-- /timeline-3-desc --></p>
+                            <span class="hidden" id="item-3-maps-data"><!-- timeline-3-maps -->https://maps.app.goo.gl/1my84jiZKJM23PF27<!-- /timeline-3-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span class="timeline-address-content"><!-- timeline-3-address -->77 Rue du Casino,
-                                    88140 Contrexéville<!-- /timeline-3-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-3-address -->77 Rue du Casino, 88140 Contrexéville<!-- /timeline-3-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-4">
                             <div class="timeline-node">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z" />
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
                             <span class="timeline-time"><!-- timeline-4-time -->02:00<!-- /timeline-4-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span
-                                    class="timeline-title-content"><!-- timeline-4-title -->Fin des
-                                    festivités<!-- /timeline-4-title --></span></p>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-4-title -->Fin des festivités<!-- /timeline-4-title --></span></p>
                             <p class="timeline-desc"><!-- timeline-4-desc --><!-- /timeline-4-desc --></p>
-                            <span class="hidden"
-                                id="item-4-maps-data"><!-- timeline-4-maps --><!-- /timeline-4-maps --></span>
+                            <span class="hidden" id="item-4-maps-data"><!-- timeline-4-maps --><!-- /timeline-4-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span
-                                    class="timeline-address-content"><!-- timeline-4-address --><!-- /timeline-4-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-4-address --><!-- /timeline-4-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-5">
                             <div class="timeline-node">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z" />
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
                             <span class="timeline-time"><!-- timeline-5-time --><!-- /timeline-5-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span
-                                    class="timeline-title-content"><!-- timeline-5-title --><!-- /timeline-5-title --></span>
-                            </p>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-5-title --><!-- /timeline-5-title --></span></p>
                             <p class="timeline-desc"><!-- timeline-5-desc --><!-- /timeline-5-desc --></p>
-                            <span class="hidden"
-                                id="item-5-maps-data"><!-- timeline-5-maps --><!-- /timeline-5-maps --></span>
+                            <span class="hidden" id="item-5-maps-data"><!-- timeline-5-maps --><!-- /timeline-5-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span
-                                    class="timeline-address-content"><!-- timeline-5-address --><!-- /timeline-5-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-5-address --><!-- /timeline-5-address --></span>
                             </p>
                         </div>
                         <div class="timeline-item shadow-sm" id="item-6">
                             <div class="timeline-node">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z" />
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.17,20C14.17,20 19,15.17 19,9.17C19,8.77 18.97,8.37 18.92,8H17M12,2C9.24,2 7,4.24 7,7C7,10.76 11,15 12,16C13,15 17,10.76 17,7C17,4.24 14.76,2 12,2M12,4C13.66,4 15,5.34 15,7C15,8.66 13.66,10 12,10C10.34,10 9,8.66 9,7C9,5.34 10.34,4 12,4Z"/></svg>
                             </div>
                             <span class="timeline-time"><!-- timeline-6-time --><!-- /timeline-6-time --></span>
-                            <p class="timeline-title text-base sm:text-lg mb-1"><span
-                                    class="timeline-title-content"><!-- timeline-6-title --><!-- /timeline-6-title --></span>
-                            </p>
+                            <p class="timeline-title text-base sm:text-lg mb-1"><span class="timeline-title-content"><!-- timeline-6-title --><!-- /timeline-6-title --></span></p>
                             <p class="timeline-desc"><!-- timeline-6-desc --><!-- /timeline-6-desc --></p>
-                            <span class="hidden"
-                                id="item-6-maps-data"><!-- timeline-6-maps --><!-- /timeline-6-maps --></span>
+                            <span class="hidden" id="item-6-maps-data"><!-- timeline-6-maps --><!-- /timeline-6-maps --></span>
                             <p class="timeline-address-container text-[10px] uppercase tracking-wider opacity-60 mt-2">
-                                <span
-                                    class="timeline-address-content"><!-- timeline-6-address --><!-- /timeline-6-address --></span>
+                                <span class="timeline-address-content"><!-- timeline-6-address --><!-- /timeline-6-address --></span>
                             </p>
                         </div>
+             </div>
                     </div>
-                </div>
             </div>
 
             <div class="cta-container">
-                <span class="hidden"
-                    id="cta-1-url-data"><!-- cta-1-url -->https://www.booking.com/searchresults.fr.html?label=gen173nr-10CAEoggI46AdIDVgEaE2IAQGYATO4AQfIAQ3YAQPoAQH4AQGIAgGoAgG4Aq-b7M0GwAIB0gIkMzQ1NTY1Y2MtMjE4YS00ODYzLWJiZDMtZWNlZmExNzY1ODAw2AIB4AIB&aid=304142&ss=Contrexéville+•+Casino&efdco=1&lang=fr&src=index&dest_id=-1421538&dest_type=city&ac_position=0&ac_click_type=b&ac_langcode=fr&ac_suggestion_list_length=1&search_selected=true&search_pageview_id=cd7f915734880074&nflt=ht_id%3D204%3Bdistance%3D1000%3Bdistance%3D3000&checkin=2026-10-07&checkout=2026-10-08&group_adults=1&no_rooms=1&group_children=0&sr_sfu=1<!-- /cta-1-url --></span>
+                <span class="hidden" id="cta-1-url-data"><!-- cta-1-url -->https://www.booking.com/searchresults.fr.html?label=gen173nr-10CAEoggI46AdIDVgEaE2IAQGYATO4AQfIAQ3YAQPoAQH4AQGIAgGoAgG4Aq-b7M0GwAIB0gIkMzQ1NTY1Y2MtMjE4YS00ODYzLWJiZDMtZWNlZmExNzY1ODAw2AIB4AIB&aid=304142&ss=Contrexéville+•+Casino&efdco=1&lang=fr&src=index&dest_id=-1421538&dest_type=city&ac_position=0&ac_click_type=b&ac_langcode=fr&ac_suggestion_list_length=1&search_selected=true&search_pageview_id=cd7f915734880074&nflt=ht_id%3D204%3Bdistance%3D1000%3Bdistance%3D3000&checkin=2026-10-07&checkout=2026-10-08&group_adults=1&no_rooms=1&group_children=0&sr_sfu=1<!-- /cta-1-url --></span>
                 <a href="#" target="_blank" class="cta-button" id="cta-1">
                     <span class="cta-title-content"><!-- cta-1-title -->Se loger ?<!-- /cta-1-title --></span>
                 </a>
-
+                
                 <span class="hidden" id="cta-2-url-data"><!-- cta-2-url -->#rsvp<!-- /cta-2-url --></span>
                 <a href="#" target="_blank" class="cta-button" id="cta-2">
-                    <span class="cta-title-content"><!-- cta-2-title -->Confirmer notre
-                        présence<!-- /cta-2-title --></span>
+                    <span class="cta-title-content"><!-- cta-2-title -->Confirmer notre présence<!-- /cta-2-title --></span>
                 </a>
-
+                
                 <span class="hidden" id="cta-3-url-data"><!-- cta-3-url --><!-- /cta-3-url --></span>
                 <a href="#" target="_blank" class="cta-button" id="cta-3">
                     <span class="cta-title-content"><!-- cta-3-title --><!-- /cta-3-title --></span>
@@ -966,68 +910,46 @@
             </div>
 
             <div class="text-[9px] uppercase tracking-[0.4em] text-[#A38D6D] mb-12">
-                <p class="mb-4 text-slate-500"><!-- footer-dress-code -->Tenue de soirée
-                    appréciée<!-- /footer-dress-code --></p>
+                <p class="mb-4 text-slate-500"><!-- footer-dress-code -->Tenue de soirée appréciée<!-- /footer-dress-code --></p>
                 <p class="h-[1px] w-12 bg-[#D8C4A1]/30 mx-auto mb-4"></p>
-                <p class="text-[#A38D6D]/80 font-bold"><!-- footer-rsvp-date -->Réponse souhaitée avant le 1er
-                    Juin<!-- /footer-rsvp-date --></p>
+                <p class="text-[#A38D6D]/80 font-bold"><!-- footer-rsvp-date -->Réponse souhaitée avant le 1er Juin<!-- /footer-rsvp-date --></p>
+            </div>
             </div>
         </div>
     </div>
-    </div>
 
     <!-- STAGE 3: RSVP FORM -->
-    <div id="rsvp-container"
-        class="fixed inset-0 flex flex-col items-center justify-start overflow-y-scroll overflow-x-hidden pt-2 sm:pt-4 pb-20 px-4">
+    <div id="rsvp-container" class="fixed inset-0 flex flex-col items-center justify-start overflow-y-scroll overflow-x-hidden pt-2 sm:pt-4 pb-20 px-4">
         <div class="max-w-xl w-full text-center relative z-50 px-8 py-10 sm:py-20 invitation-card mt-2 sm:mt-4 mb-8 mx-4 sm:mx-8 rounded-sm hover-lift">
             <!-- Reuse Ornaments -->
-            <svg class="ornament ornament-tl">
-                <use href="#ornament-symbol"></use>
-            </svg>
-            <svg class="ornament ornament-tr">
-                <use href="#ornament-symbol"></use>
-            </svg>
-            <svg class="ornament ornament-bl">
-                <use href="#ornament-symbol"></use>
-            </svg>
-            <svg class="ornament ornament-br">
-                <use href="#ornament-symbol"></use>
-            </svg>
+            <svg class="ornament ornament-tl"><use href="#ornament-symbol"></use></svg>
+            <svg class="ornament ornament-tr"><use href="#ornament-symbol"></use></svg>
+            <svg class="ornament ornament-bl"><use href="#ornament-symbol"></use></svg>
+            <svg class="ornament ornament-br"><use href="#ornament-symbol"></use></svg>
 
             <div class="text-center mb-10">
                 <h2 class="serif text-3xl gold-text uppercase tracking-[0.3em] mb-4">RSVP</h2>
                 <p class="italic text-slate-500 text-sm max-w-md mx-auto">
-                    <!-- rsvp-intro-text -->Merci de nous confirmer votre présence avant le 1er Juin
-                    2026.<!-- /rsvp-intro-text -->
+                    <!-- rsvp-intro-text -->Merci de nous confirmer votre présence avant le 1er Juin 2026.<!-- /rsvp-intro-text -->
                 </p>
-                <span class="hidden" id="rsvp-questions-data"><!-- rsvp-questions-data -->[{"label":"Serez-vous présent
-                    ?","type":"select","name":"serez_vous_present__","options":["Oui avec plaisir","Non
-                    malheureusement"]},{"label":"Nombre d'invités (y compris
-                    vous)","type":"number","name":"nombre_d_invites__y_compris_vous_"},{"label":"Allergies ou régimes
-                    particuliers ?","type":"text","name":"allergies_ou_regimes_particuliers__"},{"label":"Aidez nous à
-                    choisir l'ambiance musicale, quelle musique vous fera vous lever de votre chaise
-                    ?","type":"text","name":"aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__"}]<!-- /rsvp-questions-data --></span>
+                <span class="hidden" id="rsvp-questions-data"><!-- rsvp-questions-data -->[{"label":"Serez-vous présent ?","type":"select","required":false,"name":"serez_vous_present__","options":["Oui avec plaisir","Non malheureusement"]},{"label":"Nombre d'invités (y compris vous)","type":"number","required":false,"name":"nombre_d_invites__y_compris_vous_"},{"label":"Allergies ou régimes particuliers ?","type":"text","required":false,"name":"allergies_ou_regimes_particuliers__"},{"label":"Aidez nous à choisir l'ambiance musicale, quelle musique vous fera vous lever de votre chaise ?","type":"text","required":false,"name":"aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__"},{"label":"test question nom","type":"text","required":true,"name":"test_question_nom"},{"label":"test question email","type":"text","required":false,"name":"test_question_email"}]<!-- /rsvp-questions-data --></span>
             </div>
 
-            <form id="rsvp-form" action="https://api.web3forms.com/submit" method="POST"
-                class="space-y-8 max-w-md mx-auto w-full pb-10 transition-all duration-1000">
-                <input type="hidden" name="access_key"
-                    value="<!-- rsvp-access-key -->fbf8f22c-b3bc-4c86-8e32-2f76ce54a1ca<!-- /rsvp-access-key -->">
+            <form id="rsvp-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-8 max-w-md mx-auto w-full pb-10 transition-all duration-1000">
+                <input type="hidden" name="access_key" value="<!-- rsvp-access-key -->9f037da4-db8a-4fce-a972-a26ba0ea1e75<!-- /rsvp-access-key -->">
                 <div>
-                    <label class="rsvp-form-label">Votre Nom Complet</label>
+                    <label class="rsvp-form-label"><!-- rsvp-name-label -->Votre Nom et Prénom Complet<!-- /rsvp-name-label --></label>
                     <input type="text" name="name" required class="rsvp-form-input" placeholder="ex: Jean Dupont">
                 </div>
-
+                
                 <div>
-                    <label class="rsvp-form-label">Votre Email</label>
-                    <input type="email" name="email" required class="rsvp-form-input"
-                        placeholder="ex: jean.dupont@email.com">
+                    <label class="rsvp-form-label"><!-- rsvp-email-label -->Votre Email<!-- /rsvp-email-label --></label>
+                    <input type="email" name="email" required class="rsvp-form-input" placeholder="ex: jean.dupont@email.com">
                 </div>
-
+                
                 <!-- Dynamic Questions -->
                 <div id="dynamic-rsvp-questions" class="space-y-8">
-                    <!-- rsvp-questions -->
-                    <div>
+                    <!-- rsvp-questions -->                    <div>
                         <label class="rsvp-form-label">Serez-vous présent ?</label>
                         <select name="serez_vous_present__" class="rsvp-form-input bg-transparent">
                             <option value="Oui avec plaisir">Oui avec plaisir</option>
@@ -1036,19 +958,23 @@
                     </div>
                     <div>
                         <label class="rsvp-form-label">Nombre d'invités (y compris vous)</label>
-                        <input type="number" name="nombre_d_invites__y_compris_vous_" class="rsvp-form-input" value="1">
+                        <input type="number" name="nombre_d_invites__y_compris_vous_" class="rsvp-form-input" value="1"  >
                     </div>
                     <div>
                         <label class="rsvp-form-label">Allergies ou régimes particuliers ?</label>
-                        <input type="text" name="allergies_ou_regimes_particuliers__" class="rsvp-form-input"
-                            placeholder="Votre réponse...">
+                        <input type="text" name="allergies_ou_regimes_particuliers__" class="rsvp-form-input"  placeholder="Votre réponse..." >
                     </div>
                     <div>
-                        <label class="rsvp-form-label">Aidez nous à choisir l'ambiance musicale, quelle musique vous
-                            fera vous lever de votre chaise ?</label>
-                        <input type="text"
-                            name="aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__"
-                            class="rsvp-form-input" placeholder="Votre réponse...">
+                        <label class="rsvp-form-label">Aidez nous à choisir l'ambiance musicale, quelle musique vous fera vous lever de votre chaise ?</label>
+                        <input type="text" name="aidez_nous_a_choisir_l_ambiance_musicale__quelle_musique_vous_fera_vous_lever_de_votre_chaise__" class="rsvp-form-input"  placeholder="Votre réponse..." >
+                    </div>
+                    <div>
+                        <label class="rsvp-form-label">test question nom</label>
+                        <input type="text" name="test_question_nom" class="rsvp-form-input"  placeholder="Votre réponse..." required>
+                    </div>
+                    <div>
+                        <label class="rsvp-form-label">test question email</label>
+                        <input type="text" name="test_question_email" class="rsvp-form-input"  placeholder="Votre réponse..." >
                     </div><!-- /rsvp-questions -->
                 </div>
 
@@ -1071,10 +997,8 @@
             <div class="envelope-base"></div>
             <div class="success-message">
                 <h2 class="serif gold-text text-2xl uppercase tracking-widest mb-4">Merci !</h2>
-                <p class="serif text-[9px] uppercase tracking-widest text-slate-400 mb-8">Votre réponse a bien été
-                    envoyée.</p>
-                <button onclick="resetToInvitation()"
-                    class="text-[9px] uppercase tracking-[0.2em] text-[#A38D6D] border-b border-[#D8C4A1] pb-1 hover:text-[#223562] transition-colors">
+                <p class="serif text-[9px] uppercase tracking-widest text-slate-400 mb-8">Votre réponse a bien été envoyée.</p>
+                <button onclick="resetToInvitation()" class="text-[9px] uppercase tracking-[0.2em] text-[#A38D6D] border-b border-[#D8C4A1] pb-1 hover:text-[#223562] transition-colors">
                     Retour à l'invitation
                 </button>
             </div>
@@ -1087,6 +1011,7 @@
             const casinoRight = document.getElementById('casino-right');
             const btn = document.getElementById('enter-btn');
             const lock = document.getElementById('lock-ui');
+            const lockContent = document.getElementById('lock-content');
             const titleContainer = document.querySelector('.mb-4.sm\\:mb-8.text-center.fade-in');
 
             // Perfectly synchronize the transition with the building zoom
@@ -1112,6 +1037,9 @@
             // Show Lock UI after a delay
             setTimeout(() => {
                 lock.classList.add('visible');
+                lock.style.opacity = '1';
+                lock.style.pointerEvents = 'auto';
+                if (lockContent) lockContent.style.transform = 'scale(1)';
                 document.getElementById('passcode').focus();
                 // Clean up title and button visibility
                 if (btn) btn.style.display = 'none';
@@ -1131,7 +1059,7 @@
             }
         }
 
-        document.getElementById('passcode').addEventListener('keypress', function (e) {
+        document.getElementById('passcode').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') checkCode();
         });
 
@@ -1139,8 +1067,16 @@
             const intro = document.getElementById('intro-container');
             const invitationContent = document.getElementById('reveal-container');
             const lockUI = document.getElementById('lock-ui');
+            const lockContent = document.getElementById('lock-content');
             const casinoLeft = document.getElementById('casino-left');
             const casinoRight = document.getElementById('casino-right');
+            
+            // Fade out modal content but keep background blur initially
+            if (lockContent) {
+                lockContent.style.opacity = '0';
+                lockContent.style.transform = 'scale(1.1)';
+                lockContent.style.transition = 'all 0.8s ease-in';
+            }
 
             // 1. Prepare final rush
             casinoLeft.style.transition = 'transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s ease-in 0.4s';
@@ -1168,8 +1104,13 @@
                     // Reset scroll to top just in case
                     invitationContent.scrollTop = 0;
                     intro.style.display = 'none';
+                    // Trigger a resize to ensure any parallax/layouts refresh
+                    window.dispatchEvent(new Event('resize'));
                 }, 1000);
-            }, 800);
+            }, 1200);
+
+            // Audio: Switch to invitation music
+            switchAudio();
         }
 
         function initChampagneBubbles() {
@@ -1179,21 +1120,21 @@
             setInterval(() => {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
-
+                
                 const size = Math.random() * 4 + 2; // 2-6px
                 const isLeft = Math.random() < 0.5;
                 const sidePos = isLeft ? Math.random() * 15 : 85 + Math.random() * 15;
                 const duration = Math.random() * 3 + 4; // 4-7s
                 const sway = (Math.random() - 0.5) * 40; // +/- 20px
-
+                
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
                 bubble.style.left = `${sidePos}%`;
                 bubble.style.setProperty('--sway', `${sway}px`);
                 bubble.style.animationDuration = `${duration}s`;
-
+                
                 container.appendChild(bubble);
-
+                
                 // Remove bubble after animation
                 setTimeout(() => bubble.remove(), duration * 1000);
             }, 300);
@@ -1202,7 +1143,7 @@
         // Countdown Logic
         const dateStr = '<!-- event-full-date-iso -->2026-10-07T16:00:00<!-- /event-full-date-iso -->'.replace(/<!--.*?-->/g, '');
         const targetDate = new Date(dateStr).getTime();
-
+        
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = targetDate - now;
@@ -1248,7 +1189,7 @@
                 } else {
                     item.removeAttribute('data-empty');
                     visibleCount++;
-
+                    
                     // Handle Maps link for address
                     if (addressContent && addressContainer) {
                         if (mapsUrl) {
@@ -1274,7 +1215,7 @@
                 }
             });
             console.log(`Visible timeline items: ${visibleCount}`);
-
+            
             // Hide section if no items are visible
             const container = document.getElementById('timeline-container');
             if (container && container.parentElement) {
@@ -1286,7 +1227,7 @@
             ctas.forEach(cta => {
                 const titleSpan = cta.querySelector('.cta-title-content');
                 const title = titleSpan ? titleSpan.textContent.trim() : '';
-
+                
                 if (!title) {
                     cta.setAttribute('data-empty', 'true');
                 } else {
@@ -1337,7 +1278,7 @@
             const success = document.getElementById('success-container');
             const reveal = document.getElementById('reveal-container');
             const rsvp = document.getElementById('rsvp-container');
-
+            
             success.classList.remove('active');
             setTimeout(() => {
                 document.body.classList.remove('is-submitting');
@@ -1352,11 +1293,11 @@
         if (rsvpForm) {
             rsvpForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-
+                
                 // 1. Prepare Data
                 const rawFormData = new FormData(rsvpForm);
                 const cleanFormData = new FormData();
-
+                
                 // Clean all fields of HTML comments (markers)
                 for (let [key, value] of rawFormData.entries()) {
                     if (typeof value === 'string') {
@@ -1375,7 +1316,7 @@
                     // 2. Clean URL
                     const rawAction = rsvpForm.getAttribute('action') || '';
                     const actionUrl = rawAction.replace(/<!--.*?-->/g, '').replace(/%3C!--.*?--%3E/g, '');
-
+                    
                     const response = await fetch(actionUrl, {
                         method: 'POST',
                         body: cleanFormData,
@@ -1385,11 +1326,11 @@
                     if (response.ok) {
                         // Start Animation Sequence
                         document.body.classList.add('is-submitting');
-
+                        
                         setTimeout(() => {
                             const success = document.getElementById('success-container');
                             success.classList.add('active');
-
+                            
                             setTimeout(() => {
                                 document.querySelector('.envelope-wrapper').classList.add('closed');
                             }, 1000);
@@ -1407,6 +1348,115 @@
             });
         }
 
+        function getCleanUrl(markerValue) {
+            if (!markerValue) return '';
+            // Strip HTML comments (markers)
+            return markerValue.replace(/<!--.*?-->/g, '').trim();
+        }
+
+        function initAudio() {
+            const config = document.getElementById('audio-config');
+            if (!config) return;
+
+            const introAudio = document.getElementById('intro-audio');
+            const invitationAudio = document.getElementById('invitation-audio');
+            
+            const introUrl = getCleanUrl(config.getAttribute('data-intro'));
+            const invitationUrl = getCleanUrl(config.getAttribute('data-invitation'));
+
+            if (introUrl) {
+                introAudio.src = introUrl;
+                introAudio.load();
+            }
+            if (invitationUrl) {
+                invitationAudio.src = invitationUrl;
+                invitationAudio.load();
+            }
+
+            const startPlaying = () => {
+                if (introUrl && introAudio.paused) {
+                    introAudio.play().then(() => {
+                        console.log("Intro audio started");
+                        document.removeEventListener('click', startPlaying);
+                        document.removeEventListener('touchstart', startPlaying);
+                    }).catch(e => console.log("Audio still blocked", e));
+                }
+            };
+            
+            document.addEventListener('click', startPlaying);
+            document.addEventListener('touchstart', startPlaying);
+        }
+
+        function initDynamicRSVP() {
+            const rsvpContainer = document.getElementById('rsvp-form');
+            if (!rsvpContainer) return;
+
+            rsvpContainer.addEventListener('input', (e) => {
+                const target = e.target;
+                if (target.name === 'nombre_d_invites__y_compris_vous_') {
+                    const count = parseInt(target.value) || 0;
+                    updateGuestFields(target, count);
+                }
+            });
+        }
+
+        function updateGuestFields(inputElement, count) {
+            let container = inputElement.parentElement.querySelector('.guest-names-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'guest-names-container mt-4 space-y-4 border-l-2 border-[#A38D6D]/20 pl-4 py-2';
+                inputElement.parentElement.appendChild(container);
+            }
+
+            const currentFields = container.querySelectorAll('.guest-field-group');
+            // Adjust number of fields
+            if (count > currentFields.length) {
+                for (let i = currentFields.length; i < count; i++) {
+                    const group = document.createElement('div');
+                    group.className = 'guest-field-group animate-fade-in transition-all duration-500';
+                    group.innerHTML = `
+                        <label class="block text-[10px] uppercase tracking-widest text-[#A38D6D] mb-1 font-bold">Nom & Prénom Invité ${i + 1}</label>
+                        <input type="text" name="guest_${i+1}_name" required class="rsvp-form-input" placeholder="Ex: Marie Dupont">
+                    `;
+                    container.appendChild(group);
+                }
+            } else if (count < currentFields.length) {
+                for (let i = currentFields.length - 1; i >= count; i--) {
+                    currentFields[i].remove();
+                }
+            }
+        }
+
+        function switchAudio() {
+            const config = document.getElementById('audio-config');
+            if (!config) return;
+
+            const introAudio = document.getElementById('intro-audio');
+            const invitationAudio = document.getElementById('invitation-audio');
+            const invUrl = getCleanUrl(config.getAttribute('data-invitation'));
+
+            if (invUrl) {
+                // Smooth transition: fade out intro and play invitation
+                if (introAudio && !introAudio.paused) {
+                    let vol = 1;
+                    const fadeOut = setInterval(() => {
+                        vol -= 0.1;
+                        if (vol <= 0.1) {
+                            clearInterval(fadeOut);
+                            introAudio.pause();
+                            invitationAudio.play().catch(e => console.log("Inv audio blocked", e));
+                        } else {
+                            introAudio.volume = vol;
+                        }
+                    }, 50);
+                } else if (invitationAudio) {
+                    invitationAudio.play().catch(e => console.log("Inv audio blocked", e));
+                }
+            }
+        }
+
+        initAudio();
+        initDynamicRSVP();
         updateTimelineVisibility();
     </script>
 </body>
